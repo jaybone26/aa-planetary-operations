@@ -1,0 +1,16 @@
+{% extends "allianceauth/base-bs5.html" %}
+{% load static %}
+{% block page_title %}Planetary Operations{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'planetary_operations/app.css' %}">
+{% endblock %}
+{% block content %}
+<main class="po-shell">
+  <header class="po-header">
+    <div><p class="po-eyebrow">ALLIANCE AUTH · INDUSTRY</p><h1>Planetary Operations</h1>
+    <p class="text-muted">Your characters. One production network.</p></div>
+    <a class="btn btn-outline-primary" href="{% url 'planetary_operations:index' %}">Planner &amp; saved plans</a>
+  </header>
+  {% block po_content %}{% endblock %}
+</main>
+{% endblock %}

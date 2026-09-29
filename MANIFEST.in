@@ -1,0 +1,7 @@
+include README.md ARCHITECTURE.md VERIFICATION.md NOTICE.md LICENSE
+recursive-include planetary_operations/data *.json
+recursive-include planetary_operations/templates *.html
+recursive-include planetary_operations/static *.css *.js
+recursive-include tests *.py
+recursive-include tools *.py
+recursive-include docs *.md *.png

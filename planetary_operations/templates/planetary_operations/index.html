@@ -1,0 +1,31 @@
+{% extends "planetary_operations/base.html" %}
+{% block po_content %}
+<section class="card mb-4"><div class="card-body">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2"><h2 class="h4">01 · Characters</h2>
+  <a class="btn btn-primary" href="{% url 'planetary_operations:authorize' %}">Authorize a character’s PI access</a></div>
+  <p class="text-muted">Add alts to your Alliance Auth account first, then authorize each here. Every plan refreshes active PI skills and existing colonies.</p>
+  <div class="table-responsive"><table class="table"><thead><tr><th>Character</th><th>Command Center Upgrades</th><th>Colony limit</th><th>Occupied</th><th>Last read</th><th></th></tr></thead><tbody>
+  {% for c in characters %}<tr><td>{{ c.name }}</td><td>{{ c.ccu|default_if_none:"Not read" }}</td><td>{{ c.colonies|default_if_none:"—" }}</td><td>{{ c.occupied|default_if_none:"—" }}</td><td>{{ c.snapshot.updated_at|default:"Not read" }}</td>
+  <td><form method="post" action="{% url 'planetary_operations:refresh' c.id %}">{% csrf_token %}<button class="btn btn-sm btn-outline-secondary">Refresh</button></form></td></tr>
+  {% empty %}<tr><td colspan="6">No authenticated EVE characters are attached to your account yet.</td></tr>{% endfor %}
+  </tbody></table></div>
+</div></section>
+<div class="row g-4"><section class="col-xl-8"><div class="card"><div class="card-body">
+  <h2 class="h4">02 · Build an operation</h2>
+  <p class="text-muted">Choose a target and pull schedule. We check a single system first, then nearby systems if a single-system layout cannot fit.</p>
+  <form method="post">{% csrf_token %}
+  {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+  <div class="row g-3">{% for field in form %}<div class="{% if field.name == 'characters' or field.name == 'replace_existing' or field.name == 'name' %}col-12{% else %}col-md-6{% endif %}">
+    <label class="form-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+    <div>{{ field }}</div>{% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+    {% for error in field.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+  </div>{% endfor %}</div>
+  <div class="alert alert-info mt-4">Output estimates depend on the extraction yield you enter. Factory cycles and fittings are checked; exact link placement and resource hotspots require an in-game check.</div>
+  <button class="btn btn-primary btn-lg" type="submit">Build &amp; save plan</button>
+  </form>
+</div></div></section><aside class="col-xl-4"><div class="card"><div class="card-body">
+  <h2 class="h4">Saved operations</h2>
+  {% for plan in plans %}<a class="po-plan" href="{% url 'planetary_operations:detail' plan.pk %}"><strong>{{ plan.name }}</strong><span>{{ plan.get_status_display }} · {{ plan.updated_at|date:"M j, H:i" }}</span></a>
+  {% empty %}<p class="text-muted">Your first build will appear here.</p>{% endfor %}
+</div></div></aside></div>
+{% endblock %}

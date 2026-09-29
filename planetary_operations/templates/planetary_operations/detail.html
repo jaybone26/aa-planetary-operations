@@ -1,0 +1,50 @@
+{% extends "planetary_operations/base.html" %}
+{% load static humanize %}
+{% block po_content %}
+<div class="d-flex justify-content-between flex-wrap gap-2 mb-4"><div><h2>{{ plan.name }}</h2><p class="text-muted">{{ plan.get_status_display }} · Updated {{ plan.updated_at }}</p></div>
+<div><a class="btn btn-outline-secondary" href="{% url 'planetary_operations:index' %}?copy={{ plan.pk }}">Adjust &amp; build a copy</a>
+<a class="btn btn-outline-secondary" href="{% url 'planetary_operations:export' plan.pk %}">Export build sheet</a></div></div>
+{% if plan.status == 'pending' or plan.status == 'running' %}
+<div class="alert alert-info" id="po-progress" data-status-url="{% url 'planetary_operations:status' plan.pk %}">Reading character skills and building your network. This page will refresh when the calculation finishes.</div>
+<p>If this remains queued, ask your administrator to check the AA Celery worker. You can leave this page and return to the saved plan.</p>
+<script src="{% static 'planetary_operations/progress.js' %}" defer></script>
+{% elif plan.status == 'failed' %}<div class="alert alert-warning">{{ plan.error }}</div>
+{% else %}
+{% if plan.replace_existing %}<div class="alert alert-warning">Replacement plan: existing colonies must be removed or rebuilt in game to free the assigned capacity.</div>{% endif %}
+<div class="po-stats mb-4">
+  <div><span>FINISHED / PULL</span><strong>{{ plan.result.output|intcomma }}</strong><small>{{ plan.result.product }} · {{ plan.result.hours }} hours</small></div>
+  <div><span>PRODUCTION / DAY</span><strong>{{ plan.result.per_day|floatformat:2|intcomma }}</strong><small>{{ plan.result.per_week|floatformat:2|intcomma }} / week</small></div>
+  <div><span>DEPLOYMENT</span><strong>{{ plan.result.search.systems }} system{{ plan.result.search.systems|pluralize }}</strong><small>{{ plan.result.colonies|length }} colonies</small></div>
+  <div><span>JITA BUY / PULL</span><strong>{% if plan.valuation.available %}{{ plan.valuation.gross|floatformat:2|intcomma }}{% else %}Unavailable{% endif %}</strong><small>ISK · gross, filled volume only</small></div>
+</div>
+<section class="card mb-4"><div class="card-body"><h3 class="h4">Jita 4-4 valuation</h3>
+{% if plan.valuation.error %}<p>{{ plan.valuation.error }}</p>{% elif plan.valuation.available %}
+<p>Best buy: <strong>{{ plan.valuation.best_buy|floatformat:2|intcomma }} ISK</strong> · Filled {{ plan.valuation.filled|intcomma }} / {{ plan.valuation.quantity|intcomma }} units.</p>
+<p>{{ plan.valuation.per_day|floatformat:2|intcomma }} ISK/day · {{ plan.valuation.per_week|floatformat:2|intcomma }} ISK/week</p>
+{% if plan.valuation.unfilled %}<p class="text-warning">{{ plan.valuation.unfilled|intcomma }} units could not be valued against available qualifying buy orders.</p>{% endif %}
+{% else %}<p>No qualifying Jita 4-4 buy orders were returned. A missing price is not a zero-value estimate.</p>{% endif %}
+<p class="text-muted">{{ plan.valuation.note }} Price snapshot: {{ plan.valuation.fetched_at|default:"Unavailable" }}</p>
+<form method="post" action="{% url 'planetary_operations:prices' plan.pk %}">{% csrf_token %}<button class="btn btn-outline-primary">Refresh prices</button></form>
+</div></section>
+<section class="mb-4"><h3>Production build sheet</h3><p>{{ plan.result.search.note }}</p>
+<div class="row g-3">{% for colony in plan.result.colonies %}<div class="col-xl-6"><article class="card h-100"><div class="card-body">
+<p class="po-eyebrow">COLONY {{ colony.id|add:1 }} · {{ colony.character }}</p><h4>{{ colony.planet.name }}</h4>
+<p>{{ colony.planet_type }} · Planet ID {{ colony.planet.id }} · CCU {{ colony.ccu }}</p>
+<p>CPU {{ colony.cpu|intcomma }} / {{ colony.capacity.cpu|intcomma }} · Power {{ colony.power|intcomma }} / {{ colony.capacity.power|intcomma }}</p>
+<p><strong>Install one matching command center and one launchpad.</strong> Service at least every {{ colony.service_hours }} hours; check actual pad inventory.</p>
+<ul>{% for task in colony.facilities %}<li>{% if task.tier == 0 %}Extractor control unit: {{ task.name }} · {{ plan.config.heads }} heads{% else %}1 {% if task.tier == 1 %}basic processor{% elif task.tier == 4 %}high-tech plant{% else %}advanced processor{% endif %}: {{ task.name }} · Schematic {{ task.schematic }}{% endif %} — {{ task.quantity|intcomma }} units/pull{% if task.cycles %} ({{ task.cycles }} cycles){% endif %}</li>{% endfor %}</ul>
+</div></article></div>{% endfor %}</div></section>
+<section class="card mb-4"><div class="card-body"><h3 class="h4">Material requirements</h3><div class="table-responsive"><table class="table"><thead><tr><th>Material</th><th>Tier</th><th>Required</th><th>Produced / pull</th><th>Surplus</th></tr></thead><tbody>
+{% for row in plan.result.materials %}<tr><td>{{ row.name }}</td><td>P{{ row.tier }}</td><td>{{ row.required|intcomma }}</td><td>{{ row.produced|intcomma }}</td><td>{{ row.surplus|intcomma }}</td></tr>{% endfor %}</tbody></table></div>
+{% if plan.result.imports %}<h4 class="h5">Buy or supply each pull</h4><ul>{% for row in plan.result.imports %}<li>{{ row.quantity|intcomma }} {{ row.name }}</li>{% endfor %}</ul>{% endif %}
+</div></section>
+<section class="card mb-4"><div class="card-body"><h3 class="h4">Routes, hauling &amp; handoffs</h3>
+<p>Route inputs from the launchpad to each processor and route outputs back. Local routes stay on the colony. Transfer rows require POCO export/import and a character handoff where owners differ. Quantities are totals per pull; divide deliveries across the service intervals above.</p>
+<div class="table-responsive"><table class="table"><thead><tr><th>Action</th><th>From</th><th>To</th><th>Material</th><th>Units / pull</th><th>m³ / pull</th></tr></thead><tbody>
+{% for row in movements %}<tr><td>{{ row.kind }}<div class="small text-muted">{{ row.route }}{% if row.jumps %} ({{ row.jumps }} jumps){% endif %}</div></td><td>{{ row.source_label }}</td><td>{{ row.target_label }}</td><td>{{ row.name }}</td><td>{{ row.quantity|intcomma }}</td><td>{{ row.volume|floatformat:2|intcomma }}</td></tr>{% endfor %}
+</tbody></table></div></div></section>
+<section class="card mb-4"><div class="card-body"><h3 class="h4">Operating assumptions</h3><ul>{% for note in plan.result.assumptions %}<li>{{ note }}</li>{% endfor %}</ul>
+<p>Start with extraction/imports, fill each intermediate stage, then enable downstream production. The first pull will not match steady-state output unless intermediate buffers are prefilled.</p></div></section>
+{% endif %}
+<form method="post" action="{% url 'planetary_operations:delete' plan.pk %}">{% csrf_token %}<button class="btn btn-outline-danger">Delete saved plan</button></form>
+{% endblock %}
