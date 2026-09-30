@@ -78,19 +78,13 @@ Review estimated output, deployment size, and the Jita valuation status for a sa
 
 ### Step 1 — Install the package
 
-Activate the virtual environment used by your Alliance Auth installation, then install the supplied wheel:
+Activate the virtual environment used by your Alliance Auth installation, then install from [PyPI](https://pypi.org/project/aa-planetary-operations/):
 
 ```shell
-python -m pip install /path/to/aa_planetary_operations-0.1.0-py3-none-any.whl
+python -m pip install aa-planetary-operations==0.1.0
 ```
 
-Alternatively, install from the source directory:
-
-```shell
-python -m pip install /path/to/aa-planetary-operations
-```
-
-PyPI publication is pending. Maintainers can follow the [Publishing guide](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/docs/PUBLISHING.md) to configure the first release.
+Maintainers can follow the [Publishing guide](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/docs/PUBLISHING.md) for future releases.
 
 ### Step 2 — Configure Alliance Auth
 
