@@ -88,7 +88,7 @@ Add the app in your Auth project's `settings/local.py`:
 
 ```python
 INSTALLED_APPS += [
-    "planetary_operations",
+    'planetary_operations',
 ]
 ```
 
