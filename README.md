@@ -26,7 +26,6 @@ Plan your planetary industry across your main and alts, build the production net
 - [Settings](#settings)
 - [Using the planner](#using-the-planner)
 - [Translations](#translations)
-- [Contributing](#contributing)
 - [License and credits](#license-and-credits)
 
 ## Features
@@ -82,8 +81,6 @@ Activate the virtual environment used by your Alliance Auth installation, then i
 ```shell
 python -m pip install aa-planetary-operations==0.1.0
 ```
-
-Maintainers can follow the [Publishing guide](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/docs/PUBLISHING.md) for future releases.
 
 ### Step 2 — Configure Alliance Auth
 
@@ -165,19 +162,9 @@ Existing colonies reduce available slots by default. Enable **Plan a replacement
 
 **Jita estimates are gross value.** Imported materials, taxes, fees, and hauling costs are excluded. Unfilled buy-order volume is reported. Day/week figures extrapolate the current pull valuation; future liquidity can change.
 
-For the full assumptions, operating instructions, catalog updates, and troubleshooting, see the [Operating guide](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/docs/OPERATING_GUIDE.md).
-
 ## Translations
 
 The V1 interface is currently in English. Translation support is not included in this release.
-
-## Contributing
-
-Development uses a standard Python virtual environment. See the [Development guide](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/docs/DEVELOPMENT.md) for setup and verification commands.
-
-- [Operating guide](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/docs/OPERATING_GUIDE.md) — behavior to preserve when changing the planner.
-
-Include relevant tests with changes to production calculations, character permissions, or market handling.
 
 ## License and credits
 
