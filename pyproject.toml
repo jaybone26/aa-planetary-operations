@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 license-files = ["LICENSE", "NOTICE.md"]
-authors = [{name = "jaybone26"}]
+authors = [{name = "Jayybone"}]
 keywords = ["allianceauth", "eve-online", "planetary-industry"]
 dependencies = ["allianceauth>=5.0,<6", "requests>=2.32,<3", "ortools>=9.10,<10"]
 

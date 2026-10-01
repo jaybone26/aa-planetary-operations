@@ -7,6 +7,8 @@
 
 # AA Planetary Operations for Alliance Auth
 
+**Author:** [Jayybone](https://github.com/jaybone26)
+
 Plan your planetary industry across your main and alts, build the production network, and see its Jita buy value per pull.
 
 ---
