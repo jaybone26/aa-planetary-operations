@@ -17,5 +17,3 @@ python -m build
 ```
 
 Tests use real AA apps and migrations with SQLite, mocked ESI responses and an in-memory Redis substitute. No EVE credentials, running Redis server, or external worker is needed for tests. The test settings must never be used as deployment settings.
-
-See [VERIFICATION.md](../VERIFICATION.md) for the environment and checks completed for this build. See [ARCHITECTURE.md](../ARCHITECTURE.md) for the module map and planning constraints.

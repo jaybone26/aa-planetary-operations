@@ -3,7 +3,6 @@
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 ![Django](https://img.shields.io/badge/Django-5.2-green)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/LICENSE)
-[![Verification](https://img.shields.io/badge/local_tests-36_passed-brightgreen)](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/VERIFICATION.md)
 ![Status](https://img.shields.io/badge/status-staging-orange)
 
 # AA Planetary Operations for Alliance Auth
@@ -68,7 +67,7 @@ Review estimated output, deployment size, and the Jita valuation status for a sa
 
 ![AA Planetary Operations — saved operation overview](https://raw.githubusercontent.com/jaybone26/aa-planetary-operations/HEAD/docs/images/operation.png)
 
-*Screenshots show a local demonstration using sample characters. Market pricing is unavailable in the pictured preview; the live public ESI check is recorded in [Verification](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/VERIFICATION.md).*
+*Screenshots show a local demonstration using sample characters. Market pricing is unavailable in the pictured preview.*
 
 ## Installation
 
@@ -176,8 +175,6 @@ The V1 interface is currently in English. Translation support is not included in
 
 Development uses a standard Python virtual environment. See the [Development guide](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/docs/DEVELOPMENT.md) for setup and verification commands.
 
-- [Architecture](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/ARCHITECTURE.md) — modules, planning constraints, and ownership checks.
-- [Verification](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/VERIFICATION.md) — completed tests, AA version checks, and live-data results.
 - [Operating guide](https://github.com/jaybone26/aa-planetary-operations/blob/HEAD/docs/OPERATING_GUIDE.md) — behavior to preserve when changing the planner.
 
 Include relevant tests with changes to production calculations, character permissions, or market handling.
