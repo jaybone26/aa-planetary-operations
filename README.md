@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-0.1.0-blue)
+![Version](https://img.shields.io/badge/version-0.1.1-blue)
 ![Alliance Auth](https://img.shields.io/badge/Alliance_Auth-v5-blue)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 ![Django](https://img.shields.io/badge/Django-5.2-green)
@@ -74,14 +74,14 @@ Review estimated output, deployment size, and the Jita valuation status for a sa
 
 > **Requirements:** Alliance Auth v5, Python 3.11+, and your existing Auth database, Redis/Valkey, and Celery worker.
 >
-> Version 0.1.0 is ready for staging evaluation. Install it directly into your Alliance Auth virtual environment. Complete a real SSO authorization and worker run on your server before rollout.
+> Version 0.1.1 is ready for staging evaluation. Install it directly into your Alliance Auth virtual environment. Complete a real SSO authorization and worker run on your server before rollout.
 
 ### Step 1 — Install the package
 
 Activate the virtual environment used by your Alliance Auth installation, then install from [PyPI](https://pypi.org/project/aa-planetary-operations/):
 
 ```shell
-python -m pip install aa-planetary-operations==0.1.0
+python -m pip install aa-planetary-operations==0.1.1
 ```
 
 ### Step 2 — Configure Alliance Auth
@@ -97,7 +97,7 @@ INSTALLED_APPS += [
 Set a User-Agent that identifies your deployment and administrator contact:
 
 ```python
-PLANETARY_OPERATIONS_USER_AGENT = "AA-Planetary-Operations/0.1.0 (your administrator contact)"
+PLANETARY_OPERATIONS_USER_AGENT = "AA-Planetary-Operations/0.1.1 (your administrator contact)"
 PLANETARY_OPERATIONS_SEARCH_SECONDS = 30
 ```
 
@@ -153,7 +153,7 @@ Optional settings in `settings/local.py`:
 
 | Setting | Description | Default |
 | :--- | :--- | :--- |
-| `PLANETARY_OPERATIONS_USER_AGENT` | Identifies your application to ESI. Set it to include your administrator contact. | `AA-Planetary-Operations/0.1.0` |
+| `PLANETARY_OPERATIONS_USER_AGENT` | Identifies your application to ESI. Set it to include your administrator contact. | `AA-Planetary-Operations/0.1.1` |
 | `PLANETARY_OPERATIONS_SEARCH_SECONDS` | Solver search budget in seconds, limited to 5–120. | `30` |
 
 ## Using the planner

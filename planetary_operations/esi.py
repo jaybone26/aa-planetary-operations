@@ -17,7 +17,7 @@ def get(path, params=None, access_token=None):
         raise ESIUnavailable("ESI is rate limited. Try again after its cooldown.")
     headers = {
         "User-Agent": getattr(
-            settings, "PLANETARY_OPERATIONS_USER_AGENT", "AA-Planetary-Operations/0.1.0"
+            settings, "PLANETARY_OPERATIONS_USER_AGENT", "AA-Planetary-Operations/0.1.1"
         ),
         "Accept": "application/json",
     }
