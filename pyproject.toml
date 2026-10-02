@@ -21,7 +21,7 @@ Repository = "https://github.com/jaybone26/aa-planetary-operations"
 Issues = "https://github.com/jaybone26/aa-planetary-operations/issues"
 
 [project.optional-dependencies]
-test = ["pytest>=8", "pytest-django>=4.8", "requests-mock>=1.12", "fakeredis>=2", "ruff", "build"]
+test = ["pytest>=8", "pytest-django>=4.8", "requests-mock>=1.12", "fakeredis>=2", "httpx>=0.28,<1", "ruff", "build"]
 
 [tool.setuptools.packages.find]
 include = ["planetary_operations*"]
